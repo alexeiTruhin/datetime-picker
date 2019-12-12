@@ -14,6 +14,11 @@ export namespace Components {
     'max': string;
     'min': string;
   }
+  interface BasicPicker {
+    'max': number;
+    'min': number;
+    'value': number;
+  }
 }
 
 declare global {
@@ -24,8 +29,15 @@ declare global {
     prototype: HTMLBasicDatetimeElement;
     new (): HTMLBasicDatetimeElement;
   };
+
+  interface HTMLBasicPickerElement extends Components.BasicPicker, HTMLStencilElement {}
+  var HTMLBasicPickerElement: {
+    prototype: HTMLBasicPickerElement;
+    new (): HTMLBasicPickerElement;
+  };
   interface HTMLElementTagNameMap {
     'basic-datetime': HTMLBasicDatetimeElement;
+    'basic-picker': HTMLBasicPickerElement;
   }
 }
 
@@ -35,9 +47,15 @@ declare namespace LocalJSX {
     'min'?: string;
     'onChange'?: (event: CustomEvent<any>) => void;
   }
+  interface BasicPicker {
+    'max'?: number;
+    'min'?: number;
+    'value'?: number;
+  }
 
   interface IntrinsicElements {
     'basic-datetime': BasicDatetime;
+    'basic-picker': BasicPicker;
   }
 }
 
@@ -48,6 +66,7 @@ declare module "@stencil/core" {
   export namespace JSX {
     interface IntrinsicElements {
       'basic-datetime': LocalJSX.BasicDatetime & JSXBase.HTMLAttributes<HTMLBasicDatetimeElement>;
+      'basic-picker': LocalJSX.BasicPicker & JSXBase.HTMLAttributes<HTMLBasicPickerElement>;
     }
   }
 }
