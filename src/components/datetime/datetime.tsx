@@ -1,4 +1,4 @@
-import { Component, Host, h, State, Listen, Element, Event, EventEmitter } from '@stencil/core';
+import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop } from '@stencil/core';
 
 @Component({
   tag: 'basic-datetime',
@@ -6,15 +6,35 @@ import { Component, Host, h, State, Listen, Element, Event, EventEmitter } from 
   shadow: true
 })
 export class Datetime {
+  minDate: Date = new Date('1970');
+  maxDate: Date = new Date();
+
   @Element() el: HTMLElement;
+
+  @State() date: Date = new Date();
+
+  @Prop() min: string;
+  @Prop() max: string;
 
   @Event() change: EventEmitter;
 
-  @State() date = new Date();
+  componentWillLoad() {
+    let minDate = this.minDate;
+    let maxDate = this.maxDate;
+
+    if (this.min) minDate = new Date(this.min);
+    if (this.max) maxDate = new Date(this.max);
+
+    if (maxDate.getTime() < minDate.getTime()) {
+      console.error('max date is smaller then min date');
+    } else {
+      this.minDate = minDate;
+      this.maxDate = maxDate;
+    }
+  }
 
   @Listen('click', { capture: true })
   handleClick() {
-    console.log(this.el.shadowRoot.querySelector('.datetime-selector'));
     this.datetimeSelector.style.display='block';
   }
 
@@ -30,10 +50,8 @@ export class Datetime {
   generateYears() {
     const handleClick = (e) => {
       const target = e.target;
-      console.log('year clicked' , target.value);
       this.date.setFullYear(target.value);
       this.date = new Date(this.date.getTime());
-      console.log(this.date);
       this.datetimeSelector.style.display='none';
     }
 
@@ -49,6 +67,7 @@ export class Datetime {
   generateDays() {
     return this.generateRange(1).map((n) => <li>{n}</li>);
   }
+
 
   render() {
     return (

@@ -10,7 +10,10 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
-  interface BasicDatetime {}
+  interface BasicDatetime {
+    'max': string;
+    'min': string;
+  }
 }
 
 declare global {
@@ -28,6 +31,8 @@ declare global {
 
 declare namespace LocalJSX {
   interface BasicDatetime {
+    'max'?: string;
+    'min'?: string;
     'onChange'?: (event: CustomEvent<any>) => void;
   }
 
