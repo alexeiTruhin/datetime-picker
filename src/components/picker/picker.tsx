@@ -2,7 +2,7 @@ import { Component, Host, h, Prop } from '@stencil/core';
 
 @Component({
   tag: 'basic-picker',
-  styleUrl: 'picker.css',
+  styleUrl: 'picker.scss',
   shadow: true
 })
 export class Picker {
