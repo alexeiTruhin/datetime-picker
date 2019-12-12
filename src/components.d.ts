@@ -27,7 +27,9 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface BasicDatetime {}
+  interface BasicDatetime {
+    'onChange'?: (event: CustomEvent<any>) => void;
+  }
 
   interface IntrinsicElements {
     'basic-datetime': BasicDatetime;
