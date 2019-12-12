@@ -43,8 +43,12 @@ export class Datetime {
     return datetimeSelector;
   }
 
-  generateRange(start = 2000) {
-    return [...Array(10).keys()].map((n) => start + n);
+  generateRange(start, end) {
+    const arr = [];
+    for (let i = start; i <= end; i++) {
+      arr.push(i);
+    }
+    return arr;
   }
 
   generateYears() {
@@ -55,19 +59,28 @@ export class Datetime {
       this.datetimeSelector.style.display='none';
     }
 
-    let numb = 12;
-
-    return this.generateRange(2000).map((n) => <li onClick={ handleClick } value={n}>{n}</li>);
+    const start = this.minDate.getFullYear();
+    const end = this.maxDate.getFullYear();
+    return this.generateRange(start, end).map((n) => {
+      return <li onClick={ handleClick } value={n}>{n}</li>
+    });
   }
 
   generateMonths() {
-    return this.generateRange(1).map((n) => <li>{n}</li>);
+    const start = this.minDate.getFullYear();
+    const end = this.maxDate.getFullYear();
+    return this.generateRange(1, 12).map((n) => {
+      return <li value={n}>{n}</li>
+    });
   }
 
   generateDays() {
-    return this.generateRange(1).map((n) => <li>{n}</li>);
+    const start = this.minDate.getFullYear();
+    const end = this.maxDate.getFullYear();
+    return this.generateRange(1, 31).map((n) => {
+      return <li value={n}>{n}</li>
+    });
   }
-
 
   render() {
     return (
@@ -78,10 +91,10 @@ export class Datetime {
             { this.generateYears() }
           </ul>
           <ul>
-            { this.generateRange(1).map((n) => <li>{n}</li>) }
+            { this.generateMonths() }
           </ul>
           <ul>
-            { this.generateRange(1).map((n) => <li>{n}</li>) }
+            { this.generateDays() }
           </ul>
         </div>
       </Host>);
