@@ -6,8 +6,9 @@ import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop }
   shadow: true
 })
 export class Datetime {
-  minDate: Date = new Date('1970');
-  maxDate: Date = new Date();
+  minDate = new Date('1970');
+  maxDate = new Date();
+  selectorDate: Date;
 
   @Element() el: HTMLElement;
 
@@ -30,17 +31,43 @@ export class Datetime {
     } else {
       this.minDate = minDate;
       this.maxDate = maxDate;
+      if (this.date.getTime() > this.maxDate.getTime()) {
+        this.date = new Date(this.maxDate.getTime());
+      }
+      if (this.date.getTime() < this.minDate.getTime()) {
+        this.date = new Date(this.minDate.getTime());
+      }
     }
   }
 
   @Listen('click', { capture: true })
   handleClick() {
-    this.datetimeSelector.style.display='block';
+    this.showSelector();
   }
 
-  private get datetimeSelector() {
-    let datetimeSelector:HTMLElement = this.el.shadowRoot.querySelector('.datetime-selector');
-    return datetimeSelector;
+  private get selector() {
+    const selector:HTMLElement = this.el.shadowRoot.querySelector('.datetime-selector');
+    return selector;
+  }
+
+  showSelector = () => {
+    this.selector.style.display='block';
+    this.selectorDate = new Date(this.date.getTime());
+  }
+
+  hideSelector = () => {
+    this.selector.style.display='none';
+  }
+
+  submitSelector = () => {
+    this.hideSelector();
+    this.date = new Date(this.selectorDate.getTime());
+    // TODO 
+  }
+
+  cancelSelector = () => {
+    this.hideSelector();
+    // TODO
   }
 
   generateRange(start, end) {
@@ -56,7 +83,7 @@ export class Datetime {
       const target = e.target;
       this.date.setFullYear(target.value);
       this.date = new Date(this.date.getTime());
-      this.datetimeSelector.style.display='none';
+      this.hideSelector();
     }
 
     const start = this.minDate.getFullYear();
@@ -96,6 +123,10 @@ export class Datetime {
           <ul>
             { this.generateDays() }
           </ul>
+          <div>
+            <button onClick={this.cancelSelector}>Cancel</button>
+            <button onClick={this.submitSelector}>Done</button>
+          </div>
         </div>
       </Host>);
 
