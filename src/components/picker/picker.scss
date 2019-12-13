@@ -1,16 +1,32 @@
 :host {
   display: block;
+  margin: 10px;
+  position: relative;
   ul {
+    border: 1px solid #000;
     display: inline-block;
     list-style: none;
     margin: 0;
-    padding: 0 5px;
+    padding: 10px;
     vertical-align: top;
+    position: relative;
 
     li {
       cursor: pointer;
       padding: 0;
       margin: 0;
+
+      &.picked {
+        color: blue;
+      }
+
+      &.empty {
+        &:before {
+          content: "empty";
+          display: block;
+          text-indent: -99999px;
+        }
+      }
     }
   }
 }

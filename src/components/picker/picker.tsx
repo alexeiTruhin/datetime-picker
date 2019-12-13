@@ -1,4 +1,5 @@
-import { Component, Host, h, Prop } from '@stencil/core';
+import { Component, Host, h, Prop, State } from '@stencil/core';
+import { throttle } from '../../utils/utils';
 
 @Component({
   tag: 'basic-picker',
@@ -6,6 +7,10 @@ import { Component, Host, h, Prop } from '@stencil/core';
   shadow: true
 })
 export class Picker {
+  onWheelThrottled: Function;
+  @State() list: HTMLElement;
+  @State() pickedValue: number;
+
   @Prop() min: number;
   @Prop() max: number;
   @Prop() value: number;
@@ -25,6 +30,10 @@ export class Picker {
       console.error('"value" property is smaller then "min" property. "value" was set to "min" property.');
       this.value = this.max;
     }
+
+    this.pickedValue = this.value;
+
+    this.onWheelThrottled = throttle(this.onWheel, 100);
   }
 
   // 'buffer' represents the number of elements to display
@@ -32,42 +41,85 @@ export class Picker {
   generateRange(buffer: number = 3) {
     let bufferBefore = buffer;
     let bufferAfter = buffer;
+    const nullsBefore = [];
+    const nullsAfter = [];
 
-    if (this.value - this.min < buffer ) {
-      bufferBefore = this.value - this.min;
+    if (this.pickedValue - this.min < buffer ) {
+      bufferBefore = this.pickedValue - this.min;
+      for (let i = 0; i < buffer - bufferBefore; i++) {
+        nullsBefore.push(null);
+      }
     }
-    if (this.max - this.value < buffer ) {
-      bufferAfter = this.max - this.value;
+    if (this.max - this.pickedValue < buffer ) {
+      bufferAfter = this.max - this.pickedValue;
+      for (let i = 0; i < buffer - bufferAfter; i++) {
+        nullsAfter.push(null);
+      }
     }
 
-    const arr = [];
+    let arr = [...nullsBefore];
     for (let i = 0; i < bufferBefore; i++) {
-      arr.push(this.value - bufferBefore + i);
+      arr.push(this.pickedValue - bufferBefore + i);
     }
-    arr.push(this.value);
+    arr.push(this.pickedValue);
     for (let i = 1; i <= bufferAfter; i++) {
-      arr.push(this.value + i);
+      arr.push(this.pickedValue + i);
     }
+    arr = [...arr, ...nullsAfter];
     return arr;
   }
 
-  generateList(buffer: number = 3) {
+  generateListItems(buffer: number = 3) {
     const listItems = this.generateRange(buffer).map((n) => {
-      return <li value={n}>{n}</li>
-    })
+      const className = [];
+      if (n !== null) {
+        className.push('item');
+        if (n === this.pickedValue) {
+          className.push('picked');
+        }
+      } else {
+        className.push('empty');
+      }
+      return <li value={n} class={className.join(' ')}>{n}</li>
+    });
 
-    return (
-      <ul>
-        {listItems}
-      </ul>
-    )
+    return listItems;
+  }
+
+  onWheel = (event) => {
+    event.preventDefault();
+
+    if (event.deltaY < 0 && this.pickedValue > this.min) {
+        this.pickedValue -= 1;
+    } else if (event.deltaY > 0 && this.pickedValue < this.max) {
+      this.pickedValue += 1;
+    }
+  }
+
+  onClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const target = event.target;
+
+    if (target.nodeName === 'LI' && target.value) {
+      this.pickedValue = target.value;
+    }
+  }
+
+  onScroll = (event) => {
+    event.preventDefault();
   }
 
   render() {
-    const list = this.generateList();
+    const listItems = this.generateListItems();
     return (
       <Host>
-        {list}
+        <ul 
+          onWheel={this.onWheelThrottled}
+          onClick={this.onClick}
+        >
+          {listItems}
+        </ul>
       </Host>
     );
   }
