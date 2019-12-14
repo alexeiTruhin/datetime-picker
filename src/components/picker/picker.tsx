@@ -141,6 +141,7 @@ export class Picker {
 
     if (target.nodeName === 'LI' && target.value) {
       this.pickedValue = target.value;
+      this.pickerChange.emit(this.pickedValue);
     }
   }
 
