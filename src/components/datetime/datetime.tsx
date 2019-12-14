@@ -37,28 +37,23 @@ export class Datetime {
     if (this.max) maxDate = new Date(this.max);
 
     if (maxDate.getTime() < minDate.getTime()) {
-      console.error('"max" date is smaller then "min" date. Values were swapped.');
+      console.error('"max" date is smaller than "min" date. Values were swapped.');
       const temp = maxDate;
       maxDate = minDate;
       minDate = temp;
     } 
     if (date.getTime() > maxDate.getTime()) {
-      console.error('"value" date is bigger then "max" date. "value" date was set equal to the "max" date.');
+      console.error('"value" date is bigger than "max" date. "value" date was set equal to the "max" date.');
       date = new Date(maxDate.getTime());
     } 
     if (date.getTime() < minDate.getTime()) {
-      console.error('"value" date is samller then "min" date. "value" date was set equal to the "min" date.');
+      console.error('"value" date is samller than "min" date. "value" date was set equal to the "min" date.');
       date = new Date(minDate.getTime());
     } 
 
     this.minDate = minDate;
     this.maxDate = maxDate;
     this.date = date;
-  }
-
-  @Listen('click', { capture: true })
-  handleClick() {
-    this.showDatePicker();
   }
 
   private get datePicker() {
@@ -86,49 +81,47 @@ export class Datetime {
     // TODO
   }
 
-  generateRange(start, end) {
-    const arr = [];
-    for (let i = start; i <= end; i++) {
-      arr.push(i);
-    }
-    return arr;
-  }
-
   generateYears() {
-    const handleClick = (e) => {
-      const target = e.target;
-      this.date.setFullYear(target.value);
-      this.date = new Date(this.date.getTime());
-      this.hideDatePicker();
-    }
-
-    const start = this.minDate.getFullYear();
-    const end = this.maxDate.getFullYear();
-    return this.generateRange(start, end).map((n) => {
-      return <li onClick={ handleClick } value={n}>{n}</li>
-    });
+    return (
+      <basic-picker
+        min={this.minDate.getFullYear()}
+        max={this.maxDate.getFullYear()}
+        value={this.date.getFullYear()}
+      >
+      </basic-picker>
+    );
   }
 
   generateMonths() {
-    const start = this.minDate.getFullYear();
-    const end = this.maxDate.getFullYear();
-    return this.generateRange(1, 12).map((n) => {
-      return <li value={n}>{n}</li>
-    });
+    return (
+      <basic-picker
+        min={1}
+        max={12}
+        value={this.date.getMonth() + 1}
+      >
+      </basic-picker>
+    );
   }
 
   generateDays() {
-    const start = this.minDate.getFullYear();
-    const end = this.maxDate.getFullYear();
-    return this.generateRange(1, 31).map((n) => {
-      return <li value={n}>{n}</li>
-    });
+    return (
+      <basic-picker
+        min={1}
+        max={31}
+        value={this.date.getDate()}
+      >
+      </basic-picker>
+    );
   }
 
   render() {
     return (
       <Host>
-        <div>{this.date.toLocaleDateString()}</div>
+        <div
+          onClick={this.showDatePicker}
+        >
+          {this.date.toLocaleDateString()}
+        </div>
         <div class="datetime-picker">
           <ul>
             { this.generateYears() }
@@ -144,8 +137,8 @@ export class Datetime {
             <button onClick={this.submitDatePicker}>Done</button>
           </div>
         </div>         
-      </Host>);
-
+      </Host>
+    );
   }
 
 }
