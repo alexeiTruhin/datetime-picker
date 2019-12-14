@@ -7,7 +7,12 @@ import { throttle } from '../../utils/utils';
   shadow: true
 })
 export class Picker {
-  onWheelThrottled: Function;
+  onWheelThrottled;
+  onPointeMoveThrottled;
+  pointer = {
+    start: null
+  };
+
   @State() list: HTMLElement;
   @State() pickedValue: number;
 
@@ -33,7 +38,16 @@ export class Picker {
 
     this.pickedValue = this.value;
 
-    this.onWheelThrottled = throttle(this.onWheel, 100);
+    this.onWheelThrottled = throttle(this.onWheel, 50);
+    this.onPointeMoveThrottled = throttle(this.onPointerMove, 50);
+
+    document.addEventListener('pointerup', this.onPointerUp);
+    document.addEventListener('pointermove', this.onPointeMoveThrottled);
+  }
+
+  componentDidUnload() {
+    document.removeEventListener('pointerup', this.onPointerUp);
+    document.removeEventListener('pointermove', this.onPointeMoveThrottled);
   }
 
   // 'buffer' represents the number of elements to display
@@ -90,7 +104,7 @@ export class Picker {
     event.preventDefault();
 
     if (event.deltaY < 0 && this.pickedValue > this.min) {
-        this.pickedValue -= 1;
+      this.pickedValue -= 1;
     } else if (event.deltaY > 0 && this.pickedValue < this.max) {
       this.pickedValue += 1;
     }
@@ -106,9 +120,28 @@ export class Picker {
     }
   }
 
-  onScroll = (event) => {
+  onPointerDown = (event) => {
     event.preventDefault();
+    this.pointer.start = event.pageY;
   }
+
+  onPointerMove = (event) => {
+    event.preventDefault();
+    
+    if (this.pointer.start !== null && event.pageY !== this.pointer.start) {
+      if (event.pageY > this.pointer.start && this.pickedValue > this.min) {
+        this.pickedValue -= 1;
+      } else if (event.pageY < this.pointer.start && this.pickedValue < this.max) {
+        this.pickedValue += 1;
+      }
+      this.pointer.start = event.pageY
+    }
+  }
+
+  onPointerUp = (event) => {
+    event.preventDefault();
+    this.pointer.start = null;
+  }  
 
   render() {
     const listItems = this.generateListItems();
@@ -117,6 +150,7 @@ export class Picker {
         <ul 
           onWheel={this.onWheelThrottled}
           onClick={this.onClick}
+          onPointerDown={this.onPointerDown}
         >
           {listItems}
         </ul>
