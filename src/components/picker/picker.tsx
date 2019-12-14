@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, State, Event, EventEmitter } from '@stencil/core';
 import { throttle } from '../../utils/utils';
 
 @Component({
@@ -19,6 +19,8 @@ export class Picker {
   @Prop() min: number;
   @Prop() max: number;
   @Prop() value: number;
+
+  @Event() pickerChange: EventEmitter;
 
   componentWillLoad() {
     if (this.max < this.min) {
@@ -48,6 +50,20 @@ export class Picker {
   componentDidUnload() {
     document.removeEventListener('pointerup', this.onPointerUp);
     document.removeEventListener('pointermove', this.onPointeMoveThrottled);
+  }
+
+  incrementPickedValue() {
+    if (this.pickedValue < this.max) {
+      this.pickedValue += 1;
+      this.pickerChange.emit(this.pickedValue);
+    }
+  }
+
+  decrementPickedValue() {
+    if (this.pickedValue > this.min) {
+      this.pickedValue -= 1;
+      this.pickerChange.emit(this.pickedValue);
+    }
   }
 
   // 'buffer' represents the number of elements to display
@@ -104,9 +120,9 @@ export class Picker {
     event.preventDefault();
 
     if (event.deltaY < 0 && this.pickedValue > this.min) {
-      this.pickedValue -= 1;
+      this.decrementPickedValue();
     } else if (event.deltaY > 0 && this.pickedValue < this.max) {
-      this.pickedValue += 1;
+      this.incrementPickedValue();
     }
   }
 
@@ -130,9 +146,9 @@ export class Picker {
     
     if (this.pointer.start !== null && event.pageY !== this.pointer.start) {
       if (event.pageY > this.pointer.start && this.pickedValue > this.min) {
-        this.pickedValue -= 1;
+        this.decrementPickedValue();
       } else if (event.pageY < this.pointer.start && this.pickedValue < this.max) {
-        this.pickedValue += 1;
+        this.incrementPickedValue();
       }
       this.pointer.start = event.pageY
     }

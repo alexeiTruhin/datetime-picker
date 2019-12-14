@@ -50,6 +50,7 @@ declare namespace LocalJSX {
   interface BasicPicker {
     'max'?: number;
     'min'?: number;
+    'onPickerChange'?: (event: CustomEvent<any>) => void;
     'value'?: number;
   }
 
