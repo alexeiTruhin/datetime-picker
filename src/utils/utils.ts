@@ -10,3 +10,14 @@ export function throttle(func: Function, wait: number) {
     }
   }
 }
+
+export function adjustDateToLimits(date, minDate, maxDate) {
+  if (date.getTime() < minDate.getTime()) {
+    date = minDate;
+  }
+  if (date.getTime() > maxDate.getTime()) {
+    date = maxDate;
+  }
+
+  return (new Date(date));
+}
