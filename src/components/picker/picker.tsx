@@ -23,6 +23,25 @@ export class Picker {
   @Event() pickerChange: EventEmitter;
 
   componentWillLoad() {
+    this.initProperties();
+
+    this.onWheelThrottled = throttle(this.onWheel, 50);
+    this.onPointeMoveThrottled = throttle(this.onPointerMove, 50);
+
+    document.addEventListener('pointerup', this.onPointerUp);
+    document.addEventListener('pointermove', this.onPointeMoveThrottled);
+  }
+
+  componentDidUpdate() {
+    this.initProperties();
+  }
+
+  componentDidUnload() {
+    document.removeEventListener('pointerup', this.onPointerUp);
+    document.removeEventListener('pointermove', this.onPointeMoveThrottled);
+  }
+
+  initProperties() {
     if (this.max < this.min) {
       console.error('"max" property is smaller than "min" property. Values were swapped.');
       const temp = this.max;
@@ -39,17 +58,6 @@ export class Picker {
     }
 
     this.pickedValue = this.value;
-
-    this.onWheelThrottled = throttle(this.onWheel, 50);
-    this.onPointeMoveThrottled = throttle(this.onPointerMove, 50);
-
-    document.addEventListener('pointerup', this.onPointerUp);
-    document.addEventListener('pointermove', this.onPointeMoveThrottled);
-  }
-
-  componentDidUnload() {
-    document.removeEventListener('pointerup', this.onPointerUp);
-    document.removeEventListener('pointermove', this.onPointeMoveThrottled);
   }
 
   incrementPickedValue() {
