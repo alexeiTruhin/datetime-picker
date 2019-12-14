@@ -8,7 +8,7 @@ import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop }
 export class Datetime {
   minDate = new Date('1970');
   maxDate = new Date();
-  selectorDate: Date;
+  pickedDate: Date;
 
   @Element() el: HTMLElement;
 
@@ -42,31 +42,31 @@ export class Datetime {
 
   @Listen('click', { capture: true })
   handleClick() {
-    this.showSelector();
+    this.showDatePicker();
   }
 
-  private get selector() {
-    const selector:HTMLElement = this.el.shadowRoot.querySelector('.datetime-selector');
-    return selector;
+  private get datePicker() {
+    const datePicker:HTMLElement = this.el.shadowRoot.querySelector('.datetime-picker');
+    return datePicker;
   }
 
-  showSelector = () => {
-    this.selector.style.display='block';
-    this.selectorDate = new Date(this.date.getTime());
+  showDatePicker = () => {
+    this.datePicker.style.display='block';
+    this.pickedDate = new Date(this.date.getTime());
   }
 
-  hideSelector = () => {
-    this.selector.style.display='none';
+  hideDatePicker = () => {
+    this.datePicker.style.display='none';
   }
 
-  submitSelector = () => {
-    this.hideSelector();
-    this.date = new Date(this.selectorDate.getTime());
+  submitDatePicker = () => {
+    this.hideDatePicker();
+    this.date = new Date(this.pickedDate.getTime());
     // TODO 
   }
 
-  cancelSelector = () => {
-    this.hideSelector();
+  cancelDatePicker = () => {
+    this.hideDatePicker();
     // TODO
   }
 
@@ -83,7 +83,7 @@ export class Datetime {
       const target = e.target;
       this.date.setFullYear(target.value);
       this.date = new Date(this.date.getTime());
-      this.hideSelector();
+      this.hideDatePicker();
     }
 
     const start = this.minDate.getFullYear();
@@ -113,7 +113,7 @@ export class Datetime {
     return (
       <Host>
         <div>{this.date.toLocaleDateString()}</div>
-        <div class="datetime-selector">
+        <div class="datetime-picker">
           <ul>
             { this.generateYears() }
           </ul>
@@ -124,10 +124,10 @@ export class Datetime {
             { this.generateDays() }
           </ul>
           <div>
-            <button onClick={this.cancelSelector}>Cancel</button>
-            <button onClick={this.submitSelector}>Done</button>
+            <button onClick={this.cancelDatePicker}>Cancel</button>
+            <button onClick={this.submitDatePicker}>Done</button>
           </div>
-        </div>
+        </div>        
       </Host>);
 
   }
