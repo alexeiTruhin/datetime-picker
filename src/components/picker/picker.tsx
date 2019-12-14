@@ -24,17 +24,17 @@ export class Picker {
 
   componentWillLoad() {
     if (this.max < this.min) {
-      console.error('"max" property is smaller then "min" property. Values were swapped.');
+      console.error('"max" property is smaller than "min" property. Values were swapped.');
       const temp = this.max;
       this.max = this.min;
       this.min = temp;
     }
     if (this.value > this.max) {
-      console.error('"value" property is bigger then "max" property. "value" was set to "max" property.');
+      console.error('"value" property is bigger than "max" property. "value" was set to "max" property.');
       this.value = this.max;
     }
     if (this.value < this.min) {
-      console.error('"value" property is smaller then "min" property. "value" was set to "min" property.');
+      console.error('"value" property is smaller than "min" property. "value" was set to "min" property.');
       this.value = this.max;
     }
 
