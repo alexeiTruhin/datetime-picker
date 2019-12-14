@@ -13,6 +13,7 @@ export namespace Components {
   interface BasicDatetime {
     'max': string;
     'min': string;
+    'value': string;
   }
   interface BasicPicker {
     'max': number;
@@ -46,6 +47,7 @@ declare namespace LocalJSX {
     'max'?: string;
     'min'?: string;
     'onChange'?: (event: CustomEvent<any>) => void;
+    'value'?: string;
   }
   interface BasicPicker {
     'max'?: number;

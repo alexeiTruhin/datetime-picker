@@ -6,38 +6,54 @@ import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop }
   shadow: true
 })
 export class Datetime {
-  minDate = new Date('1970');
-  maxDate = new Date();
+  minDate: Date;
+  maxDate: Date;
+
   pickedDate: Date;
 
   @Element() el: HTMLElement;
 
-  @State() date: Date = new Date();
+  @State() date: Date;
 
   @Prop() min: string;
   @Prop() max: string;
+  @Prop() value: string;
 
   @Event() change: EventEmitter;
 
   componentWillLoad() {
-    let minDate = this.minDate;
-    let maxDate = this.maxDate;
+    this.initProperties();
+  }
 
+  initProperties() {
+    // Default dates
+    let minDate = new Date('1970');
+    let date = new Date();
+    let maxDate = new Date();
+
+    // TODO: validate min, max, and value
     if (this.min) minDate = new Date(this.min);
+    if (this.value) date = new Date(this.value);
     if (this.max) maxDate = new Date(this.max);
 
     if (maxDate.getTime() < minDate.getTime()) {
-      console.error('max date is smaller then min date');
-    } else {
-      this.minDate = minDate;
-      this.maxDate = maxDate;
-      if (this.date.getTime() > this.maxDate.getTime()) {
-        this.date = new Date(this.maxDate.getTime());
-      }
-      if (this.date.getTime() < this.minDate.getTime()) {
-        this.date = new Date(this.minDate.getTime());
-      }
-    }
+      console.error('"max" date is smaller then "min" date. Values were swapped.');
+      const temp = maxDate;
+      maxDate = minDate;
+      minDate = temp;
+    } 
+    if (date.getTime() > maxDate.getTime()) {
+      console.error('"value" date is bigger then "max" date. "value" date was set equal to the "max" date.');
+      date = new Date(maxDate.getTime());
+    } 
+    if (date.getTime() < minDate.getTime()) {
+      console.error('"value" date is samller then "min" date. "value" date was set equal to the "min" date.');
+      date = new Date(minDate.getTime());
+    } 
+
+    this.minDate = minDate;
+    this.maxDate = maxDate;
+    this.date = date;
   }
 
   @Listen('click', { capture: true })
@@ -127,7 +143,7 @@ export class Datetime {
             <button onClick={this.cancelDatePicker}>Cancel</button>
             <button onClick={this.submitDatePicker}>Done</button>
           </div>
-        </div>        
+        </div>         
       </Host>);
 
   }
