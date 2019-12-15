@@ -1,15 +1,30 @@
 :host {
   display: block;
+  font-family: Arial;
   position: relative;
+
+  .datetime-display {
+    cursor: pointer;
+    padding: 0.5rem;
+
+    &.active {
+      background: #ddd;
+    }
+  }
+
   .datetime-picker {
     background: #fff;
-    border: 1px solid #000;
+    box-shadow: 0 0 0.5rem 0 #ccc;
     display: none;
-    left: -10px;
-    padding: 10px;
+    left: 0;
+    padding: 0.5rem;
     position: absolute;
-    top: -10px;
-    z-index: 999;
+    top: 100%;
+    z-index: 10;
+
+    &.active {
+      display: block;
+    }
 
     .datetime-picker-cell {
       display: inline-block;
@@ -19,6 +34,9 @@
       vertical-align: top;
 
       .datetime-picker-cell-header {
+        color: #7c7c7c;
+        font-size: 75%;
+        margin: 0.5rem 0;
         text-transform: capitalize;
         text-align: center;
       }
@@ -26,6 +44,34 @@
       .datetime-picker-cell-body {
 
       }
+    }
+  }
+
+  .datetime-buttons {
+    border-top: 1px solid #ccc;
+    margin: 0.5rem;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+
+    button {
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: transparent;
+      cursor: pointer;
+      display: inline-block;
+      font-family: inherit;
+      font-size: 75%;
+      line-height: 1;
+      margin: 0;
+      padding: 0.5rem;
+      text-transform: uppercase;
+      width: 50%;
+
+      &.datetime-button-confirm {
+        color: #3880ff;
+      }
+
+      &.datetime-button-cancel {}
     }
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop } from '@stencil/core';
-import { adjustDateToLimits } from '../../utils/utils';
+import { adjustDateToLimits, leftPad } from '../../utils/utils';
 import { splitFormatString, convertFormatKeyToType, FormatType, FormatKey } from './formats';
 
 @Component({
@@ -67,13 +67,20 @@ export class Datetime {
     return datePicker;
   }
 
+  private get dateDisplay() {
+    const dateDisplay:HTMLElement = this.el.shadowRoot.querySelector('.datetime-display');
+    return dateDisplay;
+  }
+
   showDatePicker = () => {
-    this.datePicker.style.display='block';
+    this.dateDisplay.classList.add('active');
+    this.datePicker.classList.add('active');
     this.pickedDate = new Date(this.date.getTime());
   }
 
   hideDatePicker = () => {
-    this.datePicker.style.display='none';
+    this.dateDisplay.classList.remove('active');
+    this.datePicker.classList.remove('active');
   }
 
   submitDatePicker = () => {
@@ -401,17 +408,17 @@ export class Datetime {
   displayDateByFormatType(type: FormatType) {
     switch (type) {
       case FormatType.Year:
-        return this.date.getFullYear();
+        return leftPad(this.date.getFullYear(), 2);
       case FormatType.Month:
-        return this.date.getMonth();
+        return leftPad(this.date.getMonth(), 2);
       case FormatType.Day:
-        return this.date.getDate();
+        return leftPad(this.date.getDate(), 2);
       case FormatType.Hour:
-        return this.date.getHours();
+        return leftPad(this.date.getHours(), 2);
       case FormatType.Minute:
-        return this.date.getMinutes();
+        return leftPad(this.date.getMinutes(), 2);
       case FormatType.Second:
-        return this.date.getSeconds();
+        return leftPad(this.date.getSeconds(), 2);
       default:
         return null
     }
@@ -421,15 +428,20 @@ export class Datetime {
     return (
       <Host>
         <div
+          class="datetime-display"
           onClick={this.showDatePicker}
         >
           {this.displayDate(this.format)}
         </div>
         <div class="datetime-picker">
           {this.generatePickers(this.format)}
-          <div>
-            <button onClick={this.cancelDatePicker}>Cancel</button>
-            <button onClick={this.submitDatePicker}>Done</button>
+          <div class="datetime-buttons">
+            <button 
+              class="datetime-button-cancel"
+              onClick={this.cancelDatePicker}>Cancel</button>
+            <button 
+              class="datetime-button-confirm"
+              onClick={this.submitDatePicker}>Done</button>
           </div>
         </div>         
       </Host>
