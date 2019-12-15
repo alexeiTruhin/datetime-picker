@@ -10,18 +10,12 @@
     position: absolute;
     top: -10px;
 
-    ul {
+    basic-picker {
       display: inline-block;
       list-style: none;
       margin: 0;
       padding: 0 5px;
       vertical-align: top;
-
-      li {
-        cursor: pointer;
-        padding: 0;
-        margin: 0;
-      }
     }
   }
 }

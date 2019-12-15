@@ -74,12 +74,10 @@ export class Datetime {
   submitDatePicker = () => {
     this.hideDatePicker();
     this.date = new Date(this.pickedDate.getTime());
-    // TODO 
   }
 
   cancelDatePicker = () => {
     this.hideDatePicker();
-    // TODO
   }
 
   generateYears = () => {
@@ -163,8 +161,6 @@ export class Datetime {
     let maxDay = new Date(pickedDateValues.year, pickedDateValues.month, 0).getDate();
     let valueDay = pickedDateValues.day;
 
-    console.log(valueDay);
-
     if (
       pickedDateValues.year === minDateValues.year &&
       pickedDateValues.month === minDateValues.month
@@ -184,6 +180,137 @@ export class Datetime {
         max={maxDay}
         value={valueDay}
         onPickerChange={changeDay}
+      >
+      </basic-picker>
+    );
+  }
+
+  generateHours() {
+    const changeHour = (event) => {
+      const hour = event.detail;
+      this.pickedDate.setHours(hour);
+
+      this.pickedDate = 
+        adjustDateToLimits(this.pickedDate, this.minDate, this.maxDate);
+    }
+
+    const pickedDateValues = this.getDateValues(this.pickedDate);
+    const minDateValues = this.getDateValues(this.minDate);
+    const maxDateValues = this.getDateValues(this.maxDate);
+    let minHour = 0;
+    let maxHour = 23;
+    let valueHour = pickedDateValues.hour;
+
+    if (
+      pickedDateValues.year === minDateValues.year &&
+      pickedDateValues.month === minDateValues.month &&
+      pickedDateValues.day === minDateValues.day
+      ) {
+      minHour = minDateValues.hour;
+    }
+    if (
+      pickedDateValues.year === maxDateValues.year &&
+      pickedDateValues.month === maxDateValues.month && 
+      pickedDateValues.day === maxDateValues.day
+      ) {
+      maxHour = maxDateValues.hour;
+    }
+
+    return (
+      <basic-picker
+        min={minHour}
+        max={maxHour}
+        value={valueHour}
+        onPickerChange={changeHour}
+      >
+      </basic-picker>
+    );
+  }
+
+  generateMinutes() {
+    const changeMinute = (event) => {
+      const minute = event.detail;
+      this.pickedDate.setMinutes(minute);
+
+      this.pickedDate = 
+        adjustDateToLimits(this.pickedDate, this.minDate, this.maxDate);
+    }
+
+    const pickedDateValues = this.getDateValues(this.pickedDate);
+    const minDateValues = this.getDateValues(this.minDate);
+    const maxDateValues = this.getDateValues(this.maxDate);
+    let minMinute = 0;
+    let maxMinute = 59;
+    let valueMinute = pickedDateValues.minute;
+
+    if (
+      pickedDateValues.year === minDateValues.year &&
+      pickedDateValues.month === minDateValues.month &&
+      pickedDateValues.day === minDateValues.day &&
+      pickedDateValues.hour === minDateValues.hour
+      ) {
+      minMinute = minDateValues.minute;
+    }
+    if (
+      pickedDateValues.year === maxDateValues.year &&
+      pickedDateValues.month === maxDateValues.month && 
+      pickedDateValues.day === maxDateValues.day &&
+      pickedDateValues.hour === maxDateValues.hour
+      ) {
+      maxMinute = maxDateValues.minute;
+    }
+
+    return (
+      <basic-picker
+        min={minMinute}
+        max={maxMinute}
+        value={valueMinute}
+        onPickerChange={changeMinute}
+      >
+      </basic-picker>
+    );
+  }
+  generateSeconds() {
+    const changeSecond = (event) => {
+      const second = event.detail;
+      this.pickedDate.setSeconds(second);
+
+      this.pickedDate = 
+        adjustDateToLimits(this.pickedDate, this.minDate, this.maxDate);
+    }
+
+    const pickedDateValues = this.getDateValues(this.pickedDate);
+    const minDateValues = this.getDateValues(this.minDate);
+    const maxDateValues = this.getDateValues(this.maxDate);
+    let minSecond = 0;
+    let maxSecond = 59;
+    let valueSecond = pickedDateValues.second;
+
+    if (
+      pickedDateValues.year === minDateValues.year &&
+      pickedDateValues.month === minDateValues.month &&
+      pickedDateValues.day === minDateValues.day &&
+      pickedDateValues.hour === minDateValues.hour &&
+      pickedDateValues.minute === minDateValues.minute
+      ) {
+      minSecond = minDateValues.second;
+    }
+    if (
+      pickedDateValues.year === maxDateValues.year &&
+      pickedDateValues.month === maxDateValues.month && 
+      pickedDateValues.day === maxDateValues.day &&
+      pickedDateValues.hour === maxDateValues.hour &&
+      pickedDateValues.minute === maxDateValues.minute
+      ) {
+      maxSecond = maxDateValues.second;
+    }
+
+    return (
+      <basic-picker
+        min={minSecond}
+        max={maxSecond}
+        value={valueSecond}
+        onPickerChange={changeSecond}
       >
       </basic-picker>
     );
@@ -209,15 +336,12 @@ export class Datetime {
           {this.date.toLocaleDateString()}
         </div>
         <div class="datetime-picker">
-          <ul>
-            { this.generateYears() }
-          </ul>
-          <ul>
-            { this.generateMonths() }
-          </ul>
-          <ul>
-            { this.generateDays() }
-          </ul>
+          {this.generateYears()}
+          {this.generateMonths()}
+          {this.generateDays()}
+          {this.generateHours()}
+          {this.generateMinutes()}
+          {this.generateSeconds()}
           <div>
             <button onClick={this.cancelDatePicker}>Cancel</button>
             <button onClick={this.submitDatePicker}>Done</button>
