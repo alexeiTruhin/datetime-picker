@@ -20,6 +20,7 @@ export class Picker {
   @Prop() max: number;
   @Prop() value: number;
   @Prop() minDigits: number = 2;
+  @Prop() buffer: number = 3;
 
   @Event() pickerChange: EventEmitter;
 
@@ -173,7 +174,7 @@ export class Picker {
   }  
 
   render() {
-    const listItems = this.generateListItems();
+    const listItems = this.generateListItems(this.buffer);
     return (
       <Host>
         <ul 

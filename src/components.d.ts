@@ -14,10 +14,12 @@ export namespace Components {
     'format': string;
     'max': string;
     'min': string;
+    'pickerBuffer': number;
     'showHeader': boolean;
     'value': string;
   }
   interface BasicPicker {
+    'buffer': number;
     'max': number;
     'min': number;
     'minDigits': number;
@@ -51,10 +53,12 @@ declare namespace LocalJSX {
     'max'?: string;
     'min'?: string;
     'onDateChange'?: (event: CustomEvent<any>) => void;
+    'pickerBuffer'?: number;
     'showHeader'?: boolean;
     'value'?: string;
   }
   interface BasicPicker {
+    'buffer'?: number;
     'max'?: number;
     'min'?: number;
     'minDigits'?: number;

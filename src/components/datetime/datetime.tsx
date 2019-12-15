@@ -21,6 +21,7 @@ export class Datetime {
   @Prop() value: string;
   @Prop() format: string = 'MM/DD/YYYY';
   @Prop() showHeader: boolean;
+  @Prop() pickerBuffer: number = 3;
 
   @Event() dateChange: EventEmitter;
 
@@ -102,6 +103,7 @@ export class Datetime {
         max={this.maxDate.getFullYear()}
         value={this.pickedDate.getFullYear()}
         onPickerChange={changeYear}
+        buffer={this.pickerBuffer}
       >
       </basic-picker>
     );
@@ -145,6 +147,7 @@ export class Datetime {
         max={maxMonth}
         value={valueMonth}
         onPickerChange={changeMonth}
+        buffer={this.pickerBuffer}
       >
       </basic-picker>
     );
@@ -185,6 +188,7 @@ export class Datetime {
         max={maxDay}
         value={valueDay}
         onPickerChange={changeDay}
+        buffer={this.pickerBuffer}
       >
       </basic-picker>
     );
@@ -227,6 +231,7 @@ export class Datetime {
         max={maxHour}
         value={valueHour}
         onPickerChange={changeHour}
+        buffer={this.pickerBuffer}
       >
       </basic-picker>
     );
@@ -271,6 +276,7 @@ export class Datetime {
         max={maxMinute}
         value={valueMinute}
         onPickerChange={changeMinute}
+        buffer={this.pickerBuffer}
       >
       </basic-picker>
     );
@@ -316,6 +322,7 @@ export class Datetime {
         max={maxSecond}
         value={valueSecond}
         onPickerChange={changeSecond}
+        buffer={this.pickerBuffer}
       >
       </basic-picker>
     );
