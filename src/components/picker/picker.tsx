@@ -16,12 +16,36 @@ export class Picker {
   @State() list: HTMLElement;
   @State() pickedValue: number;
 
+  /**
+   * The minimum value;
+   */
   @Prop() min: number;
+
+  /**
+   * The maximum value;
+   */
   @Prop() max: number;
+
+  /**
+   * The initial value;
+   */
   @Prop() value: number;
+
+  /**
+   * Minimum length of a number.
+   * If the number is shorter, it will be prefixed by 0's.
+   */
   @Prop() minDigits: number = 2;
+
+  /**
+   * Number of visible values in picker before and after the current value
+   */
   @Prop() buffer: number = 3;
 
+  /**
+   * Fires every time the value was changed.
+   * Emits the new value.
+   */
   @Event() pickerChange: EventEmitter;
 
   componentWillLoad() {

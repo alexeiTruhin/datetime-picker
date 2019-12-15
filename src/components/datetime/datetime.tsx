@@ -16,13 +16,48 @@ export class Datetime {
   @State() date: Date;
   @State() pickedDate: Date;
 
+  /**
+   * The minimum date that should be a valid argument for Date.parse().
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
+   */
   @Prop() min: string;
+
+  /**
+   * The maximum date that should be a valid argument for Date.parse().
+   */
   @Prop() max: string;
+
+  /**
+   * The initial value date that should be a valid argument for Date.parse().
+   */
   @Prop() value: string;
+
+  /**
+   * Display format of the date.
+   * Available variables:
+   *   YYYY - for year
+   *   MM - for month
+   *   DD - for day
+   *   HH - for hour
+   *   mm - for minute
+   *   ss - for second
+   */
   @Prop() format: string = 'MM/DD/YYYY';
+
+  /**
+   * Show or hide header for each picker column.
+   */
   @Prop() showHeader: boolean;
+
+  /**
+   * Number of visible values in a picker before and after the current value.
+   */
   @Prop() pickerBuffer: number = 3;
 
+  /**
+   * Fires every time the date was changed.
+   * Emits the new date as Date object.
+   */
   @Event() dateChange: EventEmitter;
 
   componentWillLoad() {
