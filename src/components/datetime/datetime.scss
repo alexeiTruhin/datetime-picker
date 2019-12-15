@@ -11,12 +11,21 @@
     top: -10px;
     z-index: 999;
 
-    basic-picker {
+    .datetime-picker-cell {
       display: inline-block;
       list-style: none;
       margin: 0;
       padding: 0 5px;
       vertical-align: top;
+
+      .datetime-picker-cell-header {
+        text-transform: capitalize;
+        text-align: center;
+      }
+
+      .datetime-picker-cell-body {
+
+      }
     }
   }
 }

@@ -20,6 +20,7 @@ export class Datetime {
   @Prop() max: string;
   @Prop() value: string;
   @Prop() format: string = 'MM/DD/YYYY';
+  @Prop() showHeader: boolean;
 
   @Event() change: EventEmitter;
 
@@ -335,7 +336,19 @@ export class Datetime {
     formatArr.forEach((v) => {
       const formatType = convertFormatKeyToType(v);
       if (formatType) {
-        pickers.push(this.generatePicker(formatType));
+        const pickerHeader = (
+          <div class="datetime-picker-cell-header">
+            {formatType}
+          </div>
+        );
+        pickers.push(
+          <div class="datetime-picker-cell">
+            {this.showHeader ? pickerHeader : null}
+            <div class="datetime-picker-cell-body">
+              {this.generatePicker(formatType)}
+            </div>
+          </div>
+        );
       }
     })
 

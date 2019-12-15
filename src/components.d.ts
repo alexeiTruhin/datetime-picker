@@ -14,6 +14,7 @@ export namespace Components {
     'format': string;
     'max': string;
     'min': string;
+    'showHeader': boolean;
     'value': string;
   }
   interface BasicPicker {
@@ -49,6 +50,7 @@ declare namespace LocalJSX {
     'max'?: string;
     'min'?: string;
     'onChange'?: (event: CustomEvent<any>) => void;
+    'showHeader'?: boolean;
     'value'?: string;
   }
   interface BasicPicker {
