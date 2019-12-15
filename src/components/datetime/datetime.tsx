@@ -1,14 +1,6 @@
 import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop } from '@stencil/core';
 import { adjustDateToLimits } from '../../utils/utils';
-
-enum PickerType {
-  Year = 'year',
-  Month = 'month',
-  Day = 'day',
-  Hour = 'hour',
-  Minute = 'minute',
-  Second = 'second'
-}
+import { splitFormatString, convertFormatKeyToType, FormatType, FormatKey } from './formats';
 
 @Component({
   tag: 'basic-datetime',
@@ -336,30 +328,32 @@ export class Datetime {
     }
   }
 
-  generatePickers() {
-    return [
-      this.generatePicker(PickerType.Year),
-      this.generatePicker(PickerType.Month),
-      this.generatePicker(PickerType.Day),
-      this.generatePicker(PickerType.Hour),
-      this.generatePicker(PickerType.Minute),
-      this.generatePicker(PickerType.Second)
-    ]
+  generatePickers(formatString: string = 'DD/YYYY/MM/DD') {
+    const formatArr = splitFormatString(formatString);
+    const pickers = [];
+    formatArr.forEach((v) => {
+      const formatType = convertFormatKeyToType(v);
+      if (formatType) {
+        pickers.push(this.generatePicker(formatType));
+      }
+    })
+
+    return pickers;
   }
 
-  generatePicker(type: PickerType) {
+  generatePicker(type: FormatType) {
     switch (type) {
-      case PickerType.Year:
+      case FormatType.Year:
         return this.generateYears();
-      case PickerType.Month:
+      case FormatType.Month:
         return this.generateMonths();
-      case PickerType.Day:
+      case FormatType.Day:
         return this.generateDays();
-      case PickerType.Hour:
+      case FormatType.Hour:
         return this.generateHours();
-      case PickerType.Minute:
+      case FormatType.Minute:
         return this.generateMinutes();
-      case PickerType.Second:
+      case FormatType.Second:
         return this.generateSeconds();
       default:
         return null

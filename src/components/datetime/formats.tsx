@@ -6,6 +6,31 @@ const FORMAT_HH = 'HH';
 const FORMAT_mm = 'mm';
 const FORMAT_ss = 'ss';
 
+const TYPE_YEAR = 'year';
+const TYPE_MONTH = 'month';
+const TYPE_DAY = 'day';
+const TYPE_HOUR = 'hour';
+const TYPE_MINUTE = 'minute';
+const TYPE_SECOND = 'second';
+
+const enum FormatKey {
+  Year = 'YYYY',
+  Month = 'MM',
+  Day = 'DD',
+  Hour = 'HH',
+  Minute = 'mm',
+  Second = 'ss'
+}
+
+const enum FormatType {
+  Year = 'year',
+  Month = 'month',
+  Day = 'day',
+  Hour = 'hour',
+  Minute = 'minute',
+  Second = 'second'
+}
+
 export function splitFormatString(format: string) {
   const formatArr = [];
   const formatKeys = getAllFormatKeys();
@@ -39,3 +64,27 @@ export function getAllFormatKeys() {
     FORMAT_ss
   ]
 }
+
+export function convertFormatKeyToType(key: FormatKey) {
+    switch (key) {
+      case FormatKey.Year:
+        return FormatType.Year;
+      case FormatKey.Month:
+        return FormatType.Month;
+      case FormatKey.Day:
+        return FormatType.Day;
+      case FormatKey.Hour:
+        return FormatType.Hour;
+      case FormatKey.Minute:
+        return FormatType.Minute;
+      case FormatKey.Second:
+        return FormatType.Second;
+      default:
+        return null
+    }
+}
+
+export { FormatType };
+
+export { FormatKey };
+
