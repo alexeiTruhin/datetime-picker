@@ -19,6 +19,7 @@ export class Datetime {
   @Prop() min: string;
   @Prop() max: string;
   @Prop() value: string;
+  @Prop() format: string = 'MM/DD/YYYY';
 
   @Event() change: EventEmitter;
 
@@ -360,16 +361,50 @@ export class Datetime {
     }
   }
 
+  displayDate(formatString: string) {
+    const formatArr = splitFormatString(formatString);
+    const output = [];
+    formatArr.forEach((v) => {
+      const formatType = convertFormatKeyToType(v);
+      if (formatType) {
+        output.push(this.displayDateByFormatType(formatType));
+      } else {
+        output.push(v);
+      }
+    })
+
+    return output;
+  }
+
+  displayDateByFormatType(type: FormatType) {
+    switch (type) {
+      case FormatType.Year:
+        return this.date.getFullYear();
+      case FormatType.Month:
+        return this.date.getMonth();
+      case FormatType.Day:
+        return this.date.getDate();
+      case FormatType.Hour:
+        return this.date.getHours();
+      case FormatType.Minute:
+        return this.date.getMinutes();
+      case FormatType.Second:
+        return this.date.getSeconds();
+      default:
+        return null
+    }
+  }
+
   render() {
     return (
       <Host>
         <div
           onClick={this.showDatePicker}
         >
-          {this.date.toLocaleDateString()}
+          {this.displayDate(this.format)}
         </div>
         <div class="datetime-picker">
-          {this.generatePickers()}
+          {this.generatePickers(this.format)}
           <div>
             <button onClick={this.cancelDatePicker}>Cancel</button>
             <button onClick={this.submitDatePicker}>Done</button>
