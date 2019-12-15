@@ -21,3 +21,11 @@ export function adjustDateToLimits(date, minDate, maxDate) {
 
   return (new Date(date));
 }
+
+export function leftPad(number: number, targetLength: number) {
+    let output = number + '';
+    while (output.length < targetLength) {
+        output = '0' + output;
+    }
+    return output;
+}

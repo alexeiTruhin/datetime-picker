@@ -20,6 +20,7 @@ export namespace Components {
   interface BasicPicker {
     'max': number;
     'min': number;
+    'minDigits': number;
     'value': number;
   }
 }
@@ -56,6 +57,7 @@ declare namespace LocalJSX {
   interface BasicPicker {
     'max'?: number;
     'min'?: number;
+    'minDigits'?: number;
     'onPickerChange'?: (event: CustomEvent<any>) => void;
     'value'?: number;
   }

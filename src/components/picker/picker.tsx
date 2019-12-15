@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, State, Event, EventEmitter } from '@stencil/core';
-import { throttle } from '../../utils/utils';
+import { throttle, leftPad } from '../../utils/utils';
 
 @Component({
   tag: 'basic-picker',
@@ -19,6 +19,7 @@ export class Picker {
   @Prop() min: number;
   @Prop() max: number;
   @Prop() value: number;
+  @Prop() minDigits: number = 2;
 
   @Event() pickerChange: EventEmitter;
 
@@ -110,6 +111,8 @@ export class Picker {
   generateListItems(buffer: number = 3) {
     const listItems = this.generateRange(buffer).map((n) => {
       const className = [];
+      let value = n;
+      let output = leftPad(n, this.minDigits);
       if (n !== null) {
         className.push('item');
         if (n === this.pickedValue) {
@@ -117,8 +120,9 @@ export class Picker {
         }
       } else {
         className.push('empty');
+        output = null;
       }
-      return <li value={n} class={className.join(' ')}>{n}</li>
+      return <li value={n} class={className.join(' ')}>{output}</li>
     });
 
     return listItems;
