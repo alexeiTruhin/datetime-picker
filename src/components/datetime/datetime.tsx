@@ -410,7 +410,7 @@ export class Datetime {
       case FormatType.Year:
         return leftPad(this.date.getFullYear(), 2);
       case FormatType.Month:
-        return leftPad(this.date.getMonth(), 2);
+        return leftPad(this.date.getMonth() + 1, 2);
       case FormatType.Day:
         return leftPad(this.date.getDate(), 2);
       case FormatType.Hour:
