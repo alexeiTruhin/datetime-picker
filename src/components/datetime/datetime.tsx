@@ -1,6 +1,15 @@
 import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop } from '@stencil/core';
 import { adjustDateToLimits } from '../../utils/utils';
 
+enum PickerType {
+  Year = 'year',
+  Month = 'month',
+  Day = 'day',
+  Hour = 'hour',
+  Minute = 'minute',
+  Second = 'second'
+}
+
 @Component({
   tag: 'basic-datetime',
   styleUrl: 'datetime.scss',
@@ -327,6 +336,36 @@ export class Datetime {
     }
   }
 
+  generatePickers() {
+    return [
+      this.generatePicker(PickerType.Year),
+      this.generatePicker(PickerType.Month),
+      this.generatePicker(PickerType.Day),
+      this.generatePicker(PickerType.Hour),
+      this.generatePicker(PickerType.Minute),
+      this.generatePicker(PickerType.Second)
+    ]
+  }
+
+  generatePicker(type: PickerType) {
+    switch (type) {
+      case PickerType.Year:
+        return this.generateYears();
+      case PickerType.Month:
+        return this.generateMonths();
+      case PickerType.Day:
+        return this.generateDays();
+      case PickerType.Hour:
+        return this.generateHours();
+      case PickerType.Minute:
+        return this.generateMinutes();
+      case PickerType.Second:
+        return this.generateSeconds();
+      default:
+        return null
+    }
+  }
+
   render() {
     return (
       <Host>
@@ -336,12 +375,7 @@ export class Datetime {
           {this.date.toLocaleDateString()}
         </div>
         <div class="datetime-picker">
-          {this.generateYears()}
-          {this.generateMonths()}
-          {this.generateDays()}
-          {this.generateHours()}
-          {this.generateMinutes()}
-          {this.generateSeconds()}
+          {this.generatePickers()}
           <div>
             <button onClick={this.cancelDatePicker}>Cancel</button>
             <button onClick={this.submitDatePicker}>Done</button>
