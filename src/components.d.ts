@@ -50,7 +50,7 @@ declare namespace LocalJSX {
     'format'?: string;
     'max'?: string;
     'min'?: string;
-    'onChange'?: (event: CustomEvent<any>) => void;
+    'onDateChange'?: (event: CustomEvent<any>) => void;
     'showHeader'?: boolean;
     'value'?: string;
   }

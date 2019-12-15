@@ -24,5 +24,13 @@
     min="2000/05/15" 
     max="2020/02/10 12:12:12">
   </basic-datetime>
+
+  <script>
+    const firstBasicDateTime = document.querySelector('basic-datetime');
+    firstBasicDateTime.addEventListener('dateChange', event => { 
+      const date = event.detail;
+      console.log('Date changed to:', date.toLocaleString());
+    });
+  </script>
 </body>
 </html>

@@ -22,7 +22,7 @@ export class Datetime {
   @Prop() format: string = 'MM/DD/YYYY';
   @Prop() showHeader: boolean;
 
-  @Event() change: EventEmitter;
+  @Event() dateChange: EventEmitter;
 
   componentWillLoad() {
     this.initProperties();
@@ -57,6 +57,7 @@ export class Datetime {
     this.minDate = minDate;
     this.maxDate = maxDate;
     this.date = date;
+    this.dateChange.emit(this.date);
     this.pickedDate = new Date(this.date.getTime());
   }
 
@@ -77,6 +78,7 @@ export class Datetime {
   submitDatePicker = () => {
     this.hideDatePicker();
     this.date = new Date(this.pickedDate.getTime());
+    this.dateChange.emit(this.date);
   }
 
   cancelDatePicker = () => {
