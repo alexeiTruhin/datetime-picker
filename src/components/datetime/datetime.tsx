@@ -1,6 +1,6 @@
-import { Component, Host, h, State, Listen, Element, Event, EventEmitter, Prop } from '@stencil/core';
+import { Component, Host, h, State, Element, Event, EventEmitter, Prop } from '@stencil/core';
 import { adjustDateToLimits, leftPad } from '../../utils/utils';
-import { splitFormatString, convertFormatKeyToType, FormatType, FormatKey } from './formats';
+import { splitFormatString, convertFormatKeyToType, FormatType } from './formats';
 
 @Component({
   tag: 'basic-datetime',

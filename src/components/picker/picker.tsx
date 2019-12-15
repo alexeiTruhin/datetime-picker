@@ -123,7 +123,7 @@ export class Picker {
         className.push('empty');
         output = null;
       }
-      return <li value={n} class={className.join(' ')}>{output}</li>
+      return <li value={value} class={className.join(' ')}>{output}</li>
     });
 
     return listItems;

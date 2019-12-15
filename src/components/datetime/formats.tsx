@@ -1,18 +1,4 @@
 
-const FORMAT_YYYY = 'YYYY';
-const FORMAT_MM = 'MM';
-const FORMAT_DD = 'DD';
-const FORMAT_HH = 'HH';
-const FORMAT_mm = 'mm';
-const FORMAT_ss = 'ss';
-
-const TYPE_YEAR = 'year';
-const TYPE_MONTH = 'month';
-const TYPE_DAY = 'day';
-const TYPE_HOUR = 'hour';
-const TYPE_MINUTE = 'minute';
-const TYPE_SECOND = 'second';
-
 const enum FormatKey {
   Year = 'YYYY',
   Month = 'MM',
@@ -56,12 +42,12 @@ export function splitFormatString(format: string) {
 
 export function getAllFormatKeys() {
   return [
-    FORMAT_YYYY,
-    FORMAT_MM,
-    FORMAT_DD,
-    FORMAT_HH,
-    FORMAT_mm,
-    FORMAT_ss
+    FormatKey.Year,
+    FormatKey.Month,
+    FormatKey.Day,
+    FormatKey.Hour,
+    FormatKey.Minute,
+    FormatKey.Second
   ]
 }
 
