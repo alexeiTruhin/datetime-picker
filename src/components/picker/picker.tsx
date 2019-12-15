@@ -139,7 +139,7 @@ export class Picker {
     event.stopPropagation();
     const target = event.target;
 
-    if (target.nodeName === 'LI' && target.value) {
+    if (target.nodeName === 'LI' && !target.classList.contains('empty')) {
       this.pickedValue = target.value;
       this.pickerChange.emit(this.pickedValue);
     }
