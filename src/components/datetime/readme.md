@@ -9,6 +9,7 @@
 
 | Property       | Attribute       | Description                                                                                                                                                    | Type      | Default        |
 | -------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------- |
+| `date`         | --              | Expose current date outside the component.                                                                                                                     | `Date`    | `undefined`    |
 | `format`       | `format`        | Display format of the date. Available variables:    YYYY - for year    MM - for month    DD - for day    HH - for hour    mm - for minute    ss - for second   | `string`  | `'MM/DD/YYYY'` |
 | `max`          | `max`           | The maximum date that should be a valid argument for Date.parse().                                                                                             | `string`  | `undefined`    |
 | `min`          | `min`           | The minimum date that should be a valid argument for Date.parse(). https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse | `string`  | `undefined`    |
