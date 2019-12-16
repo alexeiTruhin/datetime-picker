@@ -13,7 +13,7 @@ export class Datetime {
 
   @Element() el: HTMLElement;
 
-  @State() date: Date;
+  @State() currentDate: Date;
   @State() pickedDate: Date;
 
   /**
@@ -55,6 +55,11 @@ export class Datetime {
   @Prop() pickerBuffer: number = 3;
 
   /**
+   * Expose current date outside the component.
+   */
+  @Prop() date: Date;
+
+  /**
    * Fires every time the date was changed.
    * Emits the new date as Date object.
    */
@@ -92,6 +97,7 @@ export class Datetime {
 
     this.minDate = minDate;
     this.maxDate = maxDate;
+    this.currentDate = date;
     this.date = date;
     this.dateChange.emit(this.date);
     this.pickedDate = new Date(this.date.getTime());
@@ -119,8 +125,11 @@ export class Datetime {
   }
 
   submitDatePicker = () => {
+    const date = new Date(this.pickedDate.getTime());
+
     this.hideDatePicker();
-    this.date = new Date(this.pickedDate.getTime());
+    this.currentDate = date;
+    this.date = date;
     this.dateChange.emit(this.date);
   }
 

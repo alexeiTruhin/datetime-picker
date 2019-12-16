@@ -11,13 +11,30 @@
 </head>
 <body>
   <basic-datetime 
+    id="first"
     format="YYYY/MM/DD HH:mm:ss" 
     min="2000/05/15" 
     max="2020/02/10 12:12:12"
+    value="2019/10/10 10:10:10"
     show-header>
   </basic-datetime>
+  <div>
+    <button id="firstButtonCheck">Check datetime</button>
+    <p id="firstText"></p>
+  </div>
+  <div>
+    <button id="firstButtonUpdate">Update datetime with current time</button>
+    <p id="firstText"></p>
+  </div>
+
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <br/> 
 
   <basic-datetime 
+    id="second"
     format="DD/MM/YYYY" 
     min="2000/05/15" 
     max="2020/02/10"
@@ -27,16 +44,32 @@
   </basic-datetime>
 
   <basic-datetime 
+    id="third"
     format="HH:mm:ss"
     max="2030/12/10 12:12:12">
   </basic-datetime>
 
   <script>
-    const firstBasicDateTime = document.querySelector('basic-datetime');
+    const firstBasicDateTime = document.querySelector('basic-datetime#first');
+    const firstButtonCheck = document.querySelector('button#firstButtonCheck');
+    const firstButtonUpdate = document.querySelector('button#firstButtonUpdate');
+    const firstText = document.querySelector('#firstText');
+
     firstBasicDateTime.addEventListener('dateChange', event => { 
       const date = event.detail;
       console.log('Date changed to:', date.toLocaleString());
     });
+    
+    firstButtonCheck.addEventListener('click', () => {
+      const date = firstBasicDateTime.date.toLocaleString();
+      firstText.textContent = `Current selected date is: ${date}`;
+    });
+
+    firstButtonUpdate.addEventListener('click', () => {
+      firstBasicDateTime.date = new Date();
+    });
+
+
   </script>
 </body>
 </html>

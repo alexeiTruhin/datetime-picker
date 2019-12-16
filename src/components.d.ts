@@ -12,6 +12,10 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
   interface BasicDatetime {
     /**
+    * Expose current date outside the component.
+    */
+    'date': Date;
+    /**
     * Display format of the date. Available variables:    YYYY - for year    MM - for month    DD - for day    HH - for hour    mm - for minute    ss - for second
     */
     'format': string;
@@ -82,6 +86,10 @@ declare global {
 
 declare namespace LocalJSX {
   interface BasicDatetime {
+    /**
+    * Expose current date outside the component.
+    */
+    'date'?: Date;
     /**
     * Display format of the date. Available variables:    YYYY - for year    MM - for month    DD - for day    HH - for hour    mm - for minute    ss - for second
     */
