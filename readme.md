@@ -5,6 +5,7 @@
  + [Short Description](#short-description)
  + [How it looks](#how-it-looks)
  + [How to use](#how-to-use)
+ + [Example](#example)
  + [What is not included](#what-is-not-included)
  
 ## Short Description
@@ -43,8 +44,31 @@ npm test
 ### To use it in your project
 Check Stencil's [Framework Integration](https://stenciljs.com/docs/overview) page
 
-### Example
-Check the [index.html](https://github.com/alexeiTruhin/datetime-picker/blob/master/src/index.html) file for example of usage.
+## Example
+### Basic example
+```html
+  <basic-datetime 
+    id="first"
+    format="YYYY/MM/DD HH:mm:ss" 
+    min="2000/05/15" 
+    max="2020/02/10 12:12:12"
+    value="2019/10/10 10:10:10"
+    picker-buffer="3"
+    show-header>
+  </basic-datetime>
+```
+Check the [index.html](https://github.com/alexeiTruhin/datetime-picker/blob/master/src/index.html) file for more examples of usage.
+
+### Display Formats
+
+| Format | Description                    | Example                 |
+| ------ | ------------------------------ | ----------------------- |
+| `YYYY` | Year, 4 digits                 | `2018`                  |
+| `MM`   | Month, leading zero            | `01` ... `12`           |
+| `DD`   | Day, leading zero              | `01` ... `31`           |
+| `HH`   | Hour, 24-hour, leading zero    | `00` ... `23`           |
+| `mm`   | Minute, leading zero           | `01` ... `59`           |
+| `ss`   | Second, leading zero           | `01` ... `59`           |
 
 Also check the properties of the component in [component's readme file](https://github.com/alexeiTruhin/datetime-picker/blob/master/src/components/datetime/readme.md).
 
